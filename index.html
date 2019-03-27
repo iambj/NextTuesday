@@ -1,0 +1,69 @@
+﻿<html>
+    <head>
+        <title>Date Converter</title>
+        <style>
+           *{
+               /* font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
+               font-family: Verdana, Geneva, Tahoma, sans-serif;
+               color: #00558d;
+           }
+            #container{
+                border: 1px solid #00558d;
+                border-radius: 5px;
+                width: 500px;
+                padding: 10px;
+                box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+            }
+            p{
+                margin: 0 0 10px 0;
+                padding: 0;
+            }
+            textarea{
+                height: 450px;
+                width: 200px;
+                padding: 5px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="container">
+            <p>After cleaning up the data from VRI in Excel, paste the dates in
+                the
+                left box in the form of MM/DD/YYYY.</p>
+            <textarea id="dates"></textarea>
+            <textarea id="targ"></textarea>
+            <br>
+            <input id="btn" value="Make it Tuesday!" type="button">
+            <br />
+        </div>
+    </body>
+
+</html>
+<script>
+    var button = document.getElementById("btn");
+    button.addEventListener("click", convert);
+    var target = document.getElementById("targ");
+    function convert() {
+        var dateList = document.getElementById("dates").value.trim();
+        var rows = dateList.split("\n");
+        var values = "";
+        for (var i in rows) {
+            if (!rows[i] || rows[i] == "") {
+                target.value = "No data entered.";
+                break;
+            };
+            let singleDate = rows[i].split("/"); // Get the MM, DD, YY
+            var theDate = new Date(singleDate[2], singleDate[0] - 1, singleDate[1])
+            var day = theDate.getDay(); // Use builtin JS date to get the day of the date. (ie. Tuesday)
+            var dayDiff = Math.abs((2 - day + 7) % 7);
+            var nextTues = new Date(singleDate[2], singleDate[0] - 1, parseInt(singleDate[1]) + dayDiff)
+            var year = nextTues.getFullYear();
+            values += (nextTues.getMonth() + 1 + "/" + (nextTues.getDate()) + "/" + year + "\n");
+        }
+        console.log("values" , values)
+        if(values){
+            target.value = values
+        }
+    }
+</script>
