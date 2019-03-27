@@ -3,7 +3,6 @@
         <title>Date Converter</title>
         <style>
            *{
-               /* font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; */
                font-family: Verdana, Geneva, Tahoma, sans-serif;
                color: #00558d;
            }
@@ -25,7 +24,6 @@
             }
         </style>
     </head>
-
     <body>
         <div id="container">
             <p>After cleaning up the data from VRI in Excel, paste the dates in
@@ -38,7 +36,6 @@
             <br />
         </div>
     </body>
-
 </html>
 <script>
     var button = document.getElementById("btn");
@@ -61,7 +58,6 @@
             var year = nextTues.getFullYear();
             values += (nextTues.getMonth() + 1 + "/" + (nextTues.getDate()) + "/" + year + "\n");
         }
-        console.log("values" , values)
         if(values){
             target.value = values
         }
