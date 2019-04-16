@@ -22,22 +22,46 @@
                 width: 200px;
                 padding: 5px;
             }
+            #tips{
+                padding: 10px;
+                font-size: smaller;
+            }
         </style>
     </head>
     <body>
         <div id="container">
-            <p>After cleaning up the data from VRI in Excel, paste the dates in
-                the
-                left box in the form of MM/DD/YYYY.</p>
+            <p>After cleaning up the data from VRI in Excel, paste the dates in the left box in the form of MM/DD/YYYY.</p>
             <textarea id="dates"></textarea>
             <textarea id="targ"></textarea>
             <br>
             <input id="btn" value="Make it Tuesday!" type="button">
             <br />
         </div>
+        <div id="tips">
+            <p>Tips:</p>
+                <ul>
+                    <li>Remember to upload the CSV file to the <a href="https://confluence.synchronoss.net:8443/pages/viewpage.action?spaceKey=NOC&title=VRI+Uploads+Repository+-+2019+Archive">VRI Uploads Repo</a> in the EOC Confluence Space.</li>
+                    <li>Remember to submit our list to the <a href="https://vital-access.vitalrecords.com/VitalAccessPW.aspx">VRI Vital Records site.</a></li>
+                </ul>
+        </div>
+
     </body>
 </html>
 <script>
+
+    // Change the desired day. It will be looked up and used automatically.
+    let daysOfTheWeek = {
+        "January"   : 0,
+        "Monday"    : 1,
+        "Tuesday"   : 2,
+        "Wednesday" : 3,
+        "Thursday"  : 4,
+        "Friday"    : 5,
+        "Saturday"  : 6,
+        "Sunday"    : 7,
+    }
+    let DESIRED_DATE = daysOfTheWeek["Thursday"]; //Change to desired date.
+
     var button = document.getElementById("btn");
     button.addEventListener("click", convert);
     var target = document.getElementById("targ");
@@ -51,9 +75,10 @@
                 break;
             };
             let singleDate = rows[i].split("/"); // Get the MM, DD, YY
-            var theDate = new Date(singleDate[2], singleDate[0] - 1, singleDate[1])
-            var day = theDate.getDay(); // Use builtin JS date to get the day of the date. (ie. Tuesday)
-            var dayDiff = Math.abs((2 - day + 7) % 7);
+            var theDate = new Date(singleDate[2], singleDate[0] - 1, singleDate[1]) // Need to subtract 1 because of the way months are represented. i.e., January = 0.
+            // theDate = DateObject(YY, MM, DD)
+            var day = theDate.getDay(); // Use builtin JS date to get the day of the date. (ie. Tuesday) Returns an int.
+            var dayDiff = Math.abs((DESIRED_DATE - day + 7) % 7);
             var nextTues = new Date(singleDate[2], singleDate[0] - 1, parseInt(singleDate[1]) + dayDiff)
             var year = nextTues.getFullYear();
             values += (nextTues.getMonth() + 1 + "/" + (nextTues.getDate()) + "/" + year + "\n");
